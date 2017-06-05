@@ -1,3 +1,4 @@
+<?php require_once "VerificarLogeo.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,6 +30,9 @@
             <li><a href="LoginEmpleados.php">Empleados</a></li>
             <li class="active"><a href="IngresoAutos.php">Autos</a></li>
             <li><a href="Administracion.php">Administracion</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="LogOut.php">Log Out</li>
           </ul>
         </div>
       </nav>

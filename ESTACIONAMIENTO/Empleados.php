@@ -2,6 +2,7 @@
 
 if($_POST["op"] == "login")
 {
+  try {
     $login = new LoginEmpleado($_POST["legajoEmp"],$_POST["pass"]);
     $PDO = new PDO("mysql:host=localhost;dbname=estacionamiento","root","");//LOGIN CON PDO
     $empleados = $PDO->query("SELECT * FROM empleados");
@@ -10,9 +11,20 @@ if($_POST["op"] == "login")
       if($login->GetLegajo() == $array[$i]["legajo"])
       {
         if ($login->GetPass() == $array[$i]["pass"]) {
-          echo $array[$i]["nombre"]." ".$array[$i]["apellido"]." Turno: ".$array[$i]["turno"];
-          /*session_start();
-          $_SESSION["user"] = */
+          if($array[$i]["administrador"] == 0)
+          {
+              echo $array[$i]["nombre"]." ".$array[$i]["apellido"]." Administrador"."<br>";
+              session_start();
+              $_SESSION["admin"] = $array[$i]["nombre"];
+              echo "<a href='Administracion.php'><input type='button' class='btn-success' value='Administracion'></a>";
+              echo "<a href='IngresoAutos.php'><input type='button' class='btn-success' value='Ingresar Auto'></a>";
+          }
+          else {
+            echo $array[$i]["nombre"]." ".$array[$i]["apellido"]." Empleado";
+            session_start();
+            $_SESSION["empleado"] = $array[$i]["nombre"];
+            echo "<a href='IngresoAutos.php'><input type='button' class='btn-success' value='Ingresar Auto'></a>";
+          }
           break;
         }
         else {
@@ -23,6 +35,11 @@ if($_POST["op"] == "login")
         echo "El legajo no existe";
       }
     }
+  } catch (PDOException $e) {
+    echo $e->getMessage();
+  }
+
+
 }
 
 
@@ -34,10 +51,12 @@ class LoginEmpleado
   private $legajo;
   private $pass;
 
+
   function __construct($id,$pas)
   {
     $this->legajo = $id;
     $this->pass = $pas;
+
   }
   function GetLegajo()
   {

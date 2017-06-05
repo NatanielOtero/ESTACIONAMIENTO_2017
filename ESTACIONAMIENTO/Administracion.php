@@ -1,3 +1,4 @@
+<?php require_once "VerificarAdmin.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,9 +31,25 @@
             <li><a href="IngresoAutos.php">Autos</a></li>
             <li class="active"><a href="Administracion.php">Administracion</a></li>
           </ul>
+          <ul class="nav navbar-inverse navbar-right">
+              <li><a href="LogOut.php">Log Out</a></li>
+          </ul>
         </div>
       </nav>
     </header>
+    <div class="container">
+      <form  action="Administracion.php" method="post">
+        <ul class="list-group">
+            <br>
+            <li><input type="submit" class="btn-success"  value="Alta" name="Alta"></li>
+            <br>
+            <li><input type="submit" class="btn-success"  value="Baja" name="Baja"></li>
+            <br>
+            <li><input type="submit" class="btn-success"  value="Mod" name="Mod"></li>
+            <br>
+        </ul>
+      </form>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -40,9 +57,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
 </html>
-
-
 <?php
+
+if (isset($_POST["Alta"]))
+{
+  require_once('../lib/nusoap.php');
+  $server = new nusoap_server();
+  $server->configureWSDL('Alta Empleados', 'urn:Administracion.php');
+
+}
 
 
 
